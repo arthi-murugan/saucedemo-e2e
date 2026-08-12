@@ -30,9 +30,16 @@ const selectors = {
 
 async function login(page: Page, username: string, password: string) {
   await page.goto('/');
+  
+
   await page.fill(selectors.username, username);
+  
+
   await page.fill(selectors.password, password);
+  
+
   await page.click(selectors.loginButton);
+  
 }
 
 async function addItemByPosition(page: Page, position: number) {
@@ -60,7 +67,7 @@ test.describe('Sauce Demo end-to-end', () => {
   test('shows an appropriate error message for failed login', async ({ page }) => {
     await login(page, credentials.invalid.username, credentials.invalid.password);
     await expect(page.locator(selectors.errorBanner)).toHaveText(
-      'Epic sadface: Username and password do not match any user in this service.'
+      'Epic sadface: Username and password do not match any user in this service'
     );
   });
 
@@ -88,6 +95,7 @@ test.describe('Sauce Demo end-to-end', () => {
     await page.fill(selectors.lastName, 'Doe');
     await page.fill(selectors.postalCode, '90210');
     await page.click(selectors.continueButton);
+    
 
     const overviewItems = await page.locator(selectors.cartItemName).allTextContents();
     expect(overviewItems.map((text) => text.trim()).sort()).toEqual(
@@ -95,6 +103,6 @@ test.describe('Sauce Demo end-to-end', () => {
     );
 
     await page.click(selectors.finishButton);
-    await expect(page.locator(selectors.completeHeader)).toHaveText('THANK YOU FOR YOUR ORDER');
+    await expect(page.locator(selectors.completeHeader)).toHaveText('Thank you for your order!');
   });
 });
